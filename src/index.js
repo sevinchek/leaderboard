@@ -2,6 +2,7 @@
 
 const ul = document.querySelector("ul");
 const form = document.querySelector("#add-form");
+const refreshBtn = document.querySelector("#refresh");
 
 async function addScore(e) {
   e.preventDefault();
@@ -18,17 +19,29 @@ async function addScore(e) {
         "Content-type": "application/json; charset=UTF-8",
       },
     }
+  );
+
+  input[0].value = "";
+  input[1].value = "";
+}
+
+async function refreshScoreTable() {
+  const response = await fetch(
+    "https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/clgFLMtHrYVTrf5UzXrW/scores"
   )
     .then((response) => response.json())
-    .then((json) => console.log(json));
-
-  // const li = document.createElement("li");
-  // const p = document.createElement("p");
-  // p.innerHTML = `${input[0].value}: ${input[1].value}`;
-  // li.appendChild(p);
-  // ul.appendChild(li);
-  // input[0].value = "";
-  // input[1].value = "";
+    .then((json) => {
+      ul.innerHTML = "";
+      json.result.forEach((element) => {
+        const li = document.createElement("li");
+        const p = document.createElement("p");
+        p.innerHTML = `${element.user}: ${element.score}`;
+        li.appendChild(p);
+        ul.appendChild(li);
+      });
+    });
 }
 
 form.addEventListener("submit", addScore);
+refreshBtn.addEventListener("click", refreshScoreTable);
+document.addEventListener("DOMContentLoaded", refreshScoreTable);
