@@ -10,7 +10,7 @@
 
 ## Demo
 
-- Online (https://sevinchek.github.io/leaderboard/)
+- [Online](https://sevinchek.github.io/leaderboard/)
 
 ## Project Setup
 
